@@ -1,10 +1,3 @@
 #!/bin/bash
 
-
 sudo apt upgrade
-
-# Install NodeJs
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt update
-
-sudo apt-get install -y nodejs

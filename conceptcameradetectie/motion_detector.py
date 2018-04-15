@@ -46,7 +46,7 @@ while True:
             text = "Unoccupied"
             continue
         
-        print cv2.contourArea(c)
+        print (cv2.contourArea(c))
 
         (x, y, w, h) = cv2.boundingRect(c)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
