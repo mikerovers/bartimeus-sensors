@@ -13,7 +13,7 @@ class MotionDetector():
         self.showWindows = showWindows
         self.frame = None
 
-        # # Create the initial frame
+        # Create the initial frame
         (grabbed, sframe) = self.camera.read()
 
         self.frame = sframe
@@ -32,7 +32,7 @@ class MotionDetector():
 
         return frame
 
-    def run(self):
+    def run(self, callback):
         while True:
             c = cv.waitKey(1) % 0x100
             # If Esc of Enter key is pressed, the process wil be ended.
@@ -42,10 +42,11 @@ class MotionDetector():
             currentFrame = self.getFrame()
             self.processImage(currentFrame)
 
-            if self.somethingHasMoved():
-                print('ja')
-            else:
-                print('nee')
+            avg = self.somethingHasMoved()
+
+            if avg:
+                #print('ja')
+                callback(avg)
 
             if self.showWindows:
                 cv.imshow('Image', currentFrame)
@@ -73,11 +74,16 @@ class MotionDetector():
         currentSurface = 0
 
         for c in contours:  
-            currentSurface += cv.contourArea(c)
+            currentSurface += cv.contourArea(c )
 
         avg = (currentSurface*100)/self.surface
 
         if avg > self.threshold:
-            return True
+            return avg
         else:
-            return False
+            False
+
+
+if __name__ == '__main__':
+    detector = MotionDetector(threshold=0.2, showWindows=True)
+    detector.run()
