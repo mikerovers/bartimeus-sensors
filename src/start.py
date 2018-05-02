@@ -2,15 +2,18 @@ from motiondetector import MotionDetector
 from settingsmanager import SettingsManager
 from apiclient import ApiClient
 from threading import Timer
+import argparse
 
 class Start:   
     def __init__(self):
+        self.showWindows = None
+        self.parseArguments()
         self.settings = SettingsManager()
-        self.motiondetector = MotionDetector()
+        self.motiondetector = MotionDetector(showWindows=self.showWindows)
         self.apiClient = ApiClient()
         self.motion = False
         self.timer = None
-        self.onTimer = Timer(15.0, self.resetOnTimer)
+        self.onTimer = Timer(3.0, self.resetOnTimer)
         self.cameraId = None
         self.motionScore = 0.0
 
@@ -20,6 +23,22 @@ class Start:
         newKey = self.apiClient.activateNewSensor()
         self.cameraId = self.settings.getValue('key')
         self.motiondetector.run(self.motionDetected)
+
+    def parseArguments(self):
+        parser = argparse.ArgumentParser(description="Bartimeus argument parser.")
+        parser.add_argument("-w", "--windows", required=False, help="Show windows with motion results.")
+        args = parser.parse_args()
+
+
+        if args.windows:
+            print(args.windows)
+            if int(args.windows) == 1:
+                print('true')
+                self.showWindows = True
+            else:
+                self.showWindows = False
+        else:
+            self.showWindows = False
 
     def turnOffRoom(self):
         print('timer afgelopen!')

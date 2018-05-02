@@ -1,5 +1,6 @@
 import requests as request
 import sys
+import json
 from settingsmanager import SettingsManager
 from uuid import getnode as get_mac
 import netifaces
@@ -7,7 +8,7 @@ import netifaces
 class ApiClient():
     def __init__(self):
         self.settings = SettingsManager()
-        self.baseUrl = "http://localhost:3000/api"
+        self.baseUrl = "https://bartimeus-degoeie.herokuapp.com/api"
 
     def activateNewSensor(self):
         URL = self.baseUrl + "/camera"
@@ -25,12 +26,24 @@ class ApiClient():
         return result['id'] 
 
     def updateAvailability(self, cameraId, value):
-        URL = self.baseUrl + "/availability"
+        print(value)
+        URL = self.baseUrl + "/camera/detection"
+    
+        realValue = None
+        if value:
+            realValue = 0
+        else:
+            realValue = 1
+
+        print("Value", realValue)
+
         r = request.post(URL, data = {
-            "id": cameraId,
-            "available": value
+            "cameraId": cameraId,
+            "available": realValue
         })
 
-        if r.status_code != 200:
-            print('Something went wrong with updateing the room\'s availability.')
+        if r.status_code != 201:
+            print('Something went wrong with updating the room\'s availability.', r.text)
+        else:
+            print('succes??', r.text)
             

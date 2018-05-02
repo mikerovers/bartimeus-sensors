@@ -7,7 +7,7 @@ class SettingsManager():
         
     def getValue(self, key):
         try:
-            returnself.config.get('sensor', key)
+            return self.config.get('sensor', key)
         except:
             return None
 
