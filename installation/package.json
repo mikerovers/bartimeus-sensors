@@ -1,0 +1,19 @@
+{
+  "name": "bartimeus-sensors-installation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pkg -t latest-linux-x64 -o ./builds/app ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodegit": "^0.22.0"
+  },
+  "devDependencies": {
+    "pkg": "^4.3.1"
+  }
+}

@@ -9,11 +9,11 @@ class Start:
         self.showWindows = None
         self.parseArguments()
         self.settings = SettingsManager()
-        self.motiondetector = MotionDetector(showWindows=self.showWindows)
+        self.motiondetector = MotionDetector(threshold=0.2, showWindows=self.showWindows)
         self.apiClient = ApiClient()
         self.motion = False
         self.timer = None
-        self.onTimer = Timer(3.0, self.resetOnTimer)
+        self.onTimer = Timer(7.0, self.resetOnTimer)
         self.cameraId = None
         self.motionScore = 0.0
 
@@ -57,7 +57,7 @@ class Start:
         if self.onTimer != None:
             self.onTimer.cancel()
 
-        self.onTimer = Timer(3, self.resetOnTimer)
+        self.onTimer = Timer(7, self.resetOnTimer)
         self.onTimer.start()
 
         print('Reset onTimer')
@@ -65,7 +65,7 @@ class Start:
     def motionDetected(self, value):
         self.motionScore += value
         print("Motion score: ", self.motionScore)
-        if self.motionScore > 500:
+        if self.motionScore > 90:
             self.resetOnTimer()
             if self.motion == False:
                 self.turnOnRoom()
@@ -74,7 +74,7 @@ class Start:
             if self.timer != None:
                 self.timer.cancel()
 
-            self.timer = Timer(3.0, self.turnOffRoom)
+            self.timer = Timer(7.0, self.turnOffRoom)
             self.timer.start()
 
 if __name__ == '__main__':

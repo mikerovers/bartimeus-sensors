@@ -8,7 +8,7 @@ class MotionDetector():
         self.threshold = val
 
     def __init__(self, threshold = 0.2, showWindows = True): 
-        self.camera = cv.VideoCapture(0)
+        self.camera = cv.VideoCapture(1)
         self.threshold = threshold
         self.showWindows = showWindows
         self.frame = None
