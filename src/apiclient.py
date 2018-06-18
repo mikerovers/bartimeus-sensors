@@ -11,11 +11,11 @@ class ApiClient():
         self.baseUrl = "https://bartimeus-degoeie.herokuapp.com/api"
 
     def activateNewSensor(self):
-        URL = self.baseUrl + "/camera"
+        URL = self.baseUrl + "/cameras"
         r = request.post(URL, data = { 'macAddress': get_mac() })
 
         if r.status_code != 201:
-            print('Error during camera registring :( \n', r.text)
+            print('Error during camera registering :( \n', r.text)
             sys.exit()
 
         result = r.json()
@@ -27,7 +27,7 @@ class ApiClient():
 
     def updateAvailability(self, cameraId, value):
         print(value)
-        URL = self.baseUrl + "/camera/detection"
+        URL = self.baseUrl + "/cameras/detection"
     
         realValue = None
         if value:
@@ -42,8 +42,8 @@ class ApiClient():
             "available": realValue
         })
 
-        if r.status_code != 201:
+        if r.status_code != 200:
             print('Something went wrong with updating the room\'s availability.', r.text)
         else:
-            print('succes??', r.text)
+            print('Success.', r.text)
             
