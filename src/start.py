@@ -20,15 +20,13 @@ class Start:
         self.initializeApp()
 
     def initializeApp(self):
-        newKey = self.apiClient.activateNewSensor()
-        self.cameraId = self.settings.getValue('key')
+        self.cameraId = self.apiClient.activateNewSensor()
         self.motiondetector.run(self.motionDetected)
 
     def parseArguments(self):
         parser = argparse.ArgumentParser(description="Bartimeus argument parser.")
         parser.add_argument("-w", "--windows", required=False, help="Show windows with motion results.")
         args = parser.parse_args()
-
 
         if args.windows:
             print(args.windows)
